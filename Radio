@@ -1,0 +1,49 @@
+import tkinter as tk
+from tkinter import ttk
+import pygame
+import vlc  # benötigt die Installation von python-vlc (pip install python-vlc)
+import pydab
+
+class RadioApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Radio App")
+        self.geometry("400x300")
+
+        self.selected_station = tk.StringVar()
+
+        self.station_label = tk.Label(self, text="Wähle eine Station:")
+        self.station_label.pack(pady=10)
+
+        self.station_combobox = ttk.Combobox(self, textvariable=self.selected_station, state="readonly")
+        self.station_combobox['values'] = [
+            "DAB+ Sender 1", "DAB+ Sender 2", "DAB+ Sender 3",
+            "FM Sender 1", "FM Sender 2", "FM Sender 3"
+        ]
+        self.station_combobox.current(0)
+        self.station_combobox.pack(pady=5)
+
+        self.play_button = tk.Button(self, text="Play", command=self.play_radio)
+        self.play_button.pack(pady=5)
+
+    def play_radio(self):
+        station = self.selected_station.get()
+        if station.startswith("DAB+"):
+            self.play_dab_plus(station)
+        elif station.startswith("FM"):
+            self.play_fm(station)
+        else:
+            tk.messagebox.showerror("Fehler", "Ungültige Station ausgewählt.")
+
+    def play_dab_plus(self, station):
+        # Hier implementiere den DAB+ Stream basierend auf der ausgewählten Station
+        pass
+
+    def play_fm(self, station):
+        # Hier implementiere den FM Stream basierend auf der ausgewählten Station
+        pass
+
+if __name__ == "__main__":
+    app = RadioApp()
+    app.mainloop()
